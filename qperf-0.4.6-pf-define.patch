@@ -1,0 +1,15 @@
+diff -up qperf-0.4.6/src/rds.c.pf qperf-0.4.6/src/rds.c
+--- qperf-0.4.6/src/rds.c.pf	2012-04-05 15:25:52.517879535 -0400
++++ qperf-0.4.6/src/rds.c	2012-04-05 15:26:21.334879791 -0400
+@@ -48,7 +48,10 @@
+ /*
+  * Parameters.
+  */
+-#define AF_INET_RDS 28                  /* Family for RDS */
++#ifndef PF_RDS
++#define PF_RDS 28
++#endif
++#define AF_INET_RDS PF_RDS                  /* Family for RDS */
+ 
+ 
+ /*

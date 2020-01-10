@@ -1,11 +1,12 @@
 Name:           qperf
 Summary:        Measure socket and RDMA performance
 Version:        0.4.6
-Release:        3%{?dist}
+Release:        6%{?dist}
 License:        GPLv2 or BSD
 Group:          Networking/Diagnostic
 Source: http://www.openfabrics.org/downloads/%{name}/%{name}-%{version}-0.1.gb81434e.tar.gz
 Patch0: qperf-0.4.4-noxrc.patch
+Patch1: qperf-0.4.6-pf-define.patch
 Url:            http://www.openfabrics.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libibverbs-devel >= 1.1.2-4, librdmacm-devel >= 1.0.8-5
@@ -16,6 +17,7 @@ Measure socket and RDMA performance.
 %prep
 %setup -q
 %patch0 -p1 -b .noxrc
+%patch1 -p1 -b .pf
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
@@ -23,13 +25,11 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %{__make}
 
 %install
-rm -rf ${RPM_BUILD_ROOT}
-#install -D -m 0755 src/qperf $RPM_BUILD_ROOT%{_bindir}/qperf
-#install -D -m 0644 src/qperf.1 $RPM_BUILD_ROOT%{_mandir}/man1/qperf.1
-%{__make} DESTDIR=${RPM_BUILD_ROOT} install
+rm -rf %{buildroot}
+%{__make} DESTDIR=%{buildroot} install
 
 %clean
-rm -rf ${RPM_BUILD_ROOT}
+rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
@@ -38,6 +38,20 @@ rm -rf ${RPM_BUILD_ROOT}
 %_mandir/man1/qperf.1*
 
 %changelog
+* Thu Apr 05 2012 Doug Ledford <dledford@redhat.com> - 0.4.6-6
+- Bump and rebuild to build against the right libibverbs
+- Related: bz808673
+
+* Thu Apr 05 2012 Doug Ledford <dledford@redhat.com> - 0.4.6-5
+- Fix the fact that qperf was using the wrong PF_RDS define now that RDS
+  is integrated upstream and its assigned number is no longer temporary
+- Resolves: bz808673
+
+* Fri Jan 06 2012 Doug Ledford <dledford@redhat.com> - 0.4.6-4
+- Initial import into Fedora
+- Bump and rebuild
+- Related: bz739138
+
 * Fri Jul 22 2011 Doug Ledford <dledford@redhat.com> - 0.4.6-3.el6
 - Fix failure to build on i686
 - Resolves: bz724899
