@@ -1,23 +1,19 @@
 Name:           qperf
 Summary:        Measure socket and RDMA performance
-Version:        0.4.6
-Release:        6%{?dist}
+Version:        0.4.9
+Release:        1%{?dist}
 License:        GPLv2 or BSD
 Group:          Networking/Diagnostic
-Source: http://www.openfabrics.org/downloads/%{name}/%{name}-%{version}-0.1.gb81434e.tar.gz
-Patch0: qperf-0.4.4-noxrc.patch
-Patch1: qperf-0.4.6-pf-define.patch
+Source:         http://www.openfabrics.org/downloads/%{name}/%{name}-%{version}.tar.gz
 Url:            http://www.openfabrics.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libibverbs-devel >= 1.1.2-4, librdmacm-devel >= 1.0.8-5
-ExclusiveArch:  %{ix86} x86_64 ia64 ppc ppc64
+ExcludeArch:    s390 s390x
 %description
 Measure socket and RDMA performance.
 
 %prep
 %setup -q
-%patch0 -p1 -b .noxrc
-%patch1 -p1 -b .pf
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
@@ -38,6 +34,10 @@ rm -rf %{buildroot}
 %_mandir/man1/qperf.1*
 
 %changelog
+* Wed Aug 14 2013 Doug Ledford <dledford@redhat.com> - 0.4.9-1
+- Update to latest upstream release
+- Resolves: bz814909, bz840269
+
 * Thu Apr 05 2012 Doug Ledford <dledford@redhat.com> - 0.4.6-6
 - Bump and rebuild to build against the right libibverbs
 - Related: bz808673

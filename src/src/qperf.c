@@ -62,7 +62,7 @@
  */
 #define VER_MAJ 0                       /* Major version */
 #define VER_MIN 4                       /* Minor version */
-#define VER_INC 6                       /* Incremental version */
+#define VER_INC 9                       /* Incremental version */
 #define LISTENQ 5                       /* Size of listen queue */
 #define BUFSIZE 1024                    /* Size of buffers */
 
@@ -588,9 +588,11 @@ TEST Tests[] ={
     test(ud_lat),
     test(ver_rc_compare_swap),
     test(ver_rc_fetch_add),
+#ifdef HAS_XRC
     test(xrc_bi_bw),
     test(xrc_bw),
     test(xrc_lat),
+#endif /* HAS_XRC */
 #endif
 };
 
@@ -1776,11 +1778,10 @@ run_client_quit(void)
 static void
 run_server_quit(void)
 {
-    int z;
     char buf[1];
 
     sync_test();
-    z = read(RemoteFD, buf, sizeof(buf));
+    (void) read(RemoteFD, buf, sizeof(buf));
     kill(getppid(), SIGQUIT);
     exit(0);
 }
@@ -2376,12 +2377,12 @@ view_band(int type, char *pref, char *name, double value)
     if (!verbose(type, value))
         return;
     if (UseBitsPerSec) {
-        char *t[] ={ "bits/sec", "Kb/sec", "Mb/sec", "Gb/sec", "Tb/sec" };
+        static char *t[] ={ "bits/sec", "Kb/sec", "Mb/sec", "Gb/sec", "Tb/sec" };
         s = cardof(t);
         tab = t;
         value *= 8;
     } else {
-        char *t[] ={ "bytes/sec", "KB/sec", "MB/sec", "GB/sec", "TB/sec" };
+        static char *t[] ={ "bytes/sec", "KB/sec", "MB/sec", "GB/sec", "TB/sec" };
         s = cardof(t);
         tab = t;
     }
