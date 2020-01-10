@@ -1,7 +1,7 @@
 Name:           qperf
 Summary:        Measure socket and RDMA performance
 Version:        0.4.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2 or BSD
 Group:          Networking/Diagnostic
 Source: http://www.openfabrics.org/downloads/%{name}/%{name}-%{version}-0.1.gb81434e.tar.gz
@@ -9,7 +9,7 @@ Patch0: qperf-0.4.4-noxrc.patch
 Url:            http://www.openfabrics.org
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libibverbs-devel >= 1.1.2-4, librdmacm-devel >= 1.0.8-5
-ExclusiveArch:  i386 x86_64 ia64 ppc ppc64
+ExclusiveArch:  %{ix86} x86_64 ia64 ppc ppc64
 %description
 Measure socket and RDMA performance.
 
@@ -38,6 +38,10 @@ rm -rf ${RPM_BUILD_ROOT}
 %_mandir/man1/qperf.1*
 
 %changelog
+* Fri Jul 22 2011 Doug Ledford <dledford@redhat.com> - 0.4.6-3.el6
+- Fix failure to build on i686
+- Resolves: bz724899
+
 * Mon Jan 25 2010 Doug Ledford <dledford@redhat.com> - 0.4.6-2.el6
 - Cleanups for pkgwrangler import
 - Related: bz543948
