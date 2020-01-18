@@ -1,7 +1,7 @@
 Name:           qperf
 Summary:        Measure socket and RDMA performance
 Version:        0.4.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2 or BSD
 Group:          Networking/Diagnostic
 Url:            http://www.openfabrics.org
@@ -31,6 +31,9 @@ make DESTDIR=%{buildroot} install
 %_mandir/man1/qperf.1*
 
 %changelog
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 0.4.9-2
+- Mass rebuild 2013-12-27
+
 * Thu Aug 01 2013 Doug Ledford <dledford@redhat.com> - 0.4.9-1
 - Update to latest upstream release
 - Drop no longer needed patches
