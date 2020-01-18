@@ -1,12 +1,13 @@
 Name:           qperf
 Summary:        Measure socket and RDMA performance
 Version:        0.4.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2 or BSD
 Group:          Networking/Diagnostic
 Url:            http://www.openfabrics.org
 
 Source: http://www.openfabrics.org/downloads/%{name}/%{name}-%{version}.tar.gz
+Patch0: qperf-0.4.9-remove-sdp-references.patch
 
 BuildRequires:  libibverbs-devel >= 1.1.2-4, librdmacm-devel >= 1.0.8-5
 ExcludeArch:    s390 s390x
@@ -16,6 +17,7 @@ Measure socket and RDMA performance.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
@@ -31,6 +33,10 @@ make DESTDIR=%{buildroot} install
 %_mandir/man1/qperf.1*
 
 %changelog
+* Thu May 05 2016 Jarod Wilson <jarod@redhat.com> - 0.4.9-3
+- Remove references to SDP, as it isn't supported in RHEL
+- Resolves: rhbz#833712
+
 * Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 0.4.9-2
 - Mass rebuild 2013-12-27
 

@@ -1,0 +1,97 @@
+Index: qperf-0.4.9/src/help.txt
+===================================================================
+--- qperf-0.4.9.orig/src/help.txt
++++ qperf-0.4.9/src/help.txt
+@@ -47,8 +47,6 @@ Categories -RDMA
+         rds_lat
+         sctp_bw
+         sctp_lat
+-        sdp_bw
+-        sdp_lat
+         tcp_bw
+         tcp_lat
+         udp_bw
+@@ -79,8 +77,6 @@ Categories +RDMA
+         rds_lat
+         sctp_bw
+         sctp_lat
+-        sdp_bw
+-        sdp_lat
+         tcp_bw
+         tcp_lat
+         uc_bi_bw
+@@ -106,8 +102,6 @@ Examples
+     hostname of myserver.
+         * To run a TCP bandwidth and latency test:
+             qperf myserver tcp_bw tcp_lat
+-        * To run a SDP bandwidth test for 10 seconds:
+-            qperf myserver -t 10 sdp_bw
+         * To run a UDP latency test and then cause the server to terminate:
+             qperf myserver udp_lat quit
+         * To measure the RDMA UD latency and bandwidth:
+@@ -256,7 +250,7 @@ Options
+     --ip_port Port (-ip)
+           Use Port to run the socket tests.  This is different from
+           --listen_port which is used for synchronization.  This is only
+-          relevant for the socket tests and refers to the TCP/UDP/SDP/RDS/SCTP
++          relevant for the socket tests and refers to the TCP/UDP/RDS/SCTP
+           port that the test is run on.
+     --precision Digits (-e)
+           Set the number of significant digits that are used to report results.
+@@ -363,8 +357,6 @@ Tests -RDMA
+         rds_lat                 RDS one way latency
+         sctp_bw                 SCTP streaming one way bandwidth
+         sctp_lat                SCTP one way latency
+-        sdp_bw                  SDP streaming one way bandwidth
+-        sdp_lat                 SDP one way latency
+         tcp_bw                  TCP streaming one way bandwidth
+         tcp_lat                 TCP one way latency
+         udp_bw                  UDP streaming one way bandwidth
+@@ -378,8 +370,6 @@ Tests +RDMA
+         rds_lat                 RDS one way latency
+         sctp_bw                 SCTP streaming one way bandwidth
+         sctp_lat                SCTP one way latency
+-        sdp_bw                  SDP streaming one way bandwidth
+-        sdp_lat                 SDP one way latency
+         tcp_bw                  TCP streaming one way bandwidth
+         tcp_lat                 TCP one way latency
+         udp_bw                  UDP streaming one way bandwidth
+@@ -490,38 +480,6 @@ sctp_lat
+     Description
+         A ping pong latency test where the server and client exchange messages
+         repeatedly using STCP sockets.
+-sdp_bw
+-    Purpose
+-        SDP streaming one way bandwidth
+-    Common Options
+-        --access_recv OnOff (-ar)   Access received data
+-        --cpu_affinity PN (-ca)     Set processor affinity
+-        --msg_size Size (-m)        Set message size
+-        --sock_buf_size Size (-sb)  Set socket buffer size
+-        --time (-t)                 Set test duration
+-    Other Options
+-        --listen_port, --ip_port, --timeout
+-    Display Options
+-        --precision, --unify_nodes, --unify_units, --use_bits_per_sec,
+-        --verbose
+-    Description
+-        The client repeatedly sends messages to the server while the server
+-        notes how many were received.
+-sdp_lat
+-    Purpose
+-        SDP one way latency
+-    Common Options
+-        --cpu_affinity PN (-ca)     Set processor affinity
+-        --msg_size Size (-m)        Set message size
+-        --sock_buf_size Size (-sb)  Set socket buffer size
+-        --time (-t)                 Set test duration
+-    Other Options
+-        --listen_port, --ip_port, --timeout
+-    Display Options
+-        --precision, --unify_nodes, --unify_units, --verbose
+-    Description
+-        A ping pong latency test where the server and client exchange messages
+-        repeatedly using SDP sockets.
+ tcp_bw
+     Purpose
+         TCP streaming one way bandwidth
